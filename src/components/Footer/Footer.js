@@ -1,0 +1,18 @@
+import './Footer.css';
+
+export function renderFooter() {
+  return `
+    <footer class="fan-footer">
+      <div class="footer-brand">Cougar<span class="y">S</span>tats</div>
+      
+      <div class="social-links-footer">
+        <a href="#">𝕏 @CougarStats</a>
+        <a href="#">📷 @cougarstats</a>
+        <a href="#">▶ BYU Sports Network</a>
+      </div>
+
+      <p>&copy; 2026 CougarStats Hub · Built for WDD 330 · Go Cougs!</p>
+      <p class="legal-attribution">Data compiled directly from CollegeFootballData.com and sports collections. Fan-made site not affiliated with BYU Athletics.</p>
+    </footer>
+  `;
+}
