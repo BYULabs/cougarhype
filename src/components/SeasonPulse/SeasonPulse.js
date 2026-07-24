@@ -1,6 +1,24 @@
 import './SeasonPulse.css';
+import { getBig12Standings, getBYULastGameResults } from '../../services/api.js';
 
-export function renderSeasonPulse() {
+export async function renderSeasonPulse() {
+  const standings = await getBig12Standings(2025) || [];
+  const games = await getBYULastGameResults(2025) || [];
+  
+  // Get latest completed game
+  const lastGame = games.filter(g => g.home_points !== null).pop() || {};
+
+  // Build Standings Rows
+  const standingsRows = standings.slice(0, 5).map((team, idx) => `
+    <tr class="${team.team === 'BYU' ? 'byu-row' : ''}">
+      <td>${idx + 1}</td>
+      <td><strong>${team.team}</strong></td>
+      <td>${team.conferenceWins}-${team.conferenceLosses}</td>
+      <td>${team.totalWins}-${team.totalLosses}</td>
+      <td>${team.team === 'BYU' ? 'W1' : '-'}</td>
+    </tr>
+  `).join('');
+
   return `
     <div class="bento-wrapper">
       <!-- Standings Widget -->
@@ -11,11 +29,7 @@ export function renderSeasonPulse() {
             <tr><th>Rank</th><th>School</th><th>Conf</th><th>Overall</th><th>Streak</th></tr>
           </thead>
           <tbody>
-            <tr class="byu-row"><td>1</td><td><strong>BYU Cougars</strong></td><td>0-0</td><td>0-0</td><td>W1 (Bowl)</td></tr>
-            <tr><td>2</td><td>Utah Utes</td><td>0-0</td><td>0-0</td><td>L1</td></tr>
-            <tr><td>3</td><td>Arizona Wildcats</td><td>0-0</td><td>0-0</td><td>W2</td></tr>
-            <tr><td>4</td><td>Kansas State</td><td>0-0</td><td>0-0</td><td>L1</td></tr>
-            <tr><td>5</td><td>Iowa State</td><td>0-0</td><td>0-0</td><td>W1</td></tr>
+            ${standingsRows || '<tr><td colspan="5">Unable to load standings.</td></tr>'}
           </tbody>
         </table>
       </div>
@@ -24,16 +38,13 @@ export function renderSeasonPulse() {
       <div class="dashboard-panel results-widget">
         <h3>Latest Game Breakdown</h3>
         <div class="result-hero-card win">
-          <div class="bowl-tag">🍧 Pop-Tarts Bowl Champions</div>
+          <div class="bowl-tag"> postseason </div>
           <div class="score-display">
-            <span class="team-name">BYU</span>
-            <span class="final-score">25 - 21</span>
-            <span class="team-name">GA Tech</span>
+            <span class="team-name">${lastGame.home_team || 'BYU'}</span>
+            <span class="final-score">${lastGame.home_points ?? 0} - ${lastGame.away_points ?? 0}</span>
+            <span class="team-name">${lastGame.away_team || 'Opponent'}</span>
           </div>
-          <p class="game-meta">Dec 27, 2025 | Camping World Stadium, Orlando, FL</p>
-          <div class="key-juice-stat">
-            💡 <strong>Game Juice:</strong> Rushing duo Enoch Nawahine and Jovesa Damuni locked down 140+ yards to seal the postseason victory.
-          </div>
+          <p class="game-meta">${lastGame.start_date ? new Date(lastGame.start_date).toLocaleDateString() : 'N/A'}</p>
         </div>
       </div>
     </div>
