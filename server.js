@@ -1,36 +1,40 @@
+const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first'); // 👈 Tells Node to resolve IPv4 addresses first
+
 require('dotenv').config();
+console.log('Loaded API Key:', process.env.CFBD_API_KEY ? 'EXISTS' : 'MISSING');
 const express = require('express');
-const axios = require('axios');
+const path = require('path');
+const scheduleController = require('./src/controllers/scheduleController');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
+// Setup View Engine (EJS)
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'src/views'));
 
-// CFBD API Client setup
-const cfbdClient = axios.create({
-  baseURL: 'https://api.collegefootballdata.com',
-  headers: {
-    Authorization: `Bearer ${process.env.CFBD_API_KEY}`,
-  },
-});
+// Serve static assets (CSS, JS, images)
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Simple test route
-app.get('/', (req, res) => {
-  res.send({ status: 'Server is running!' });
-});
+// MVC Route
+app.get('/', scheduleController.renderDashboard);
 
-// Test endpoint fetching FBS teams
-app.get('/api/teams', async (req, res) => {
+app.get('/test-cfbd', async (req, res) => {
   try {
-    const response = await cfbdClient.get('/teams/fbs');
+    const axios = require('axios');
+    const response = await axios.get('https://api.collegefootballdata.com/games?year=2025&team=BYU', {
+      headers: { Authorization: `Bearer ${process.env.CFBD_API_KEY}` }
+    });
     res.json(response.data);
-  } catch (error) {
-    console.error('CFBD API Error:', error.response?.data || error.message);
-    res.status(500).json({ error: 'Failed to fetch data from CFBD' });
+  } catch (err) {
+    res.status(500).json({
+      status: err.response?.status,
+      error: err.response?.data || err.message
+    });
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
+  console.log(`CougarStats MVC Server running on http://localhost:${PORT}`);
 });
