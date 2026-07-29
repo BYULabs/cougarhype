@@ -11,8 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/itusebastian/cougarstats.git"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Sebastián Iturralde",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/itusebastian/cougarstats/issues"
@@ -20,9 +19,14 @@
   "homepage": "https://github.com/itusebastian/cougarstats#readme",
   "dependencies": {
     "axios": "^1.18.1",
-    "dotenv": "^17.4.2",
+    "bcrypt": "^6.0.0",
+    "connect-flash": "^0.1.1",
     "ejs": "^6.0.1",
-    "express": "^5.2.1"
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "express-validator": "^7.3.2",
+    "pg": "^8.22.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
