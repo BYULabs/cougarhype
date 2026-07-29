@@ -1,12 +1,20 @@
-const axios = require('axios');
+import axios from 'axios';
 
 // Dedicated Axios instance configured for College Football Data API
 const cfbdClient = axios.create({
   baseURL: 'https://api.collegefootballdata.com',
   timeout: 4000,
-  headers: {
-    Authorization: `Bearer ${process.env.CFBD_API_KEY}`,
-  },
+});
+
+// Use interceptor or dynamic header setup so it captures process.env correctly
+cfbdClient.interceptors.request.use((config) => {
+  const apiKey = process.env.CFBD_API_KEY;
+  if (apiKey) {
+    config.headers.Authorization = `Bearer ${apiKey}`;
+  } else {
+    console.warn('[CFBD Service Warning]: CFBD_API_KEY is not defined in environment variables.');
+  }
+  return config;
 });
 
 class CFBDService {
@@ -15,7 +23,7 @@ class CFBDService {
    * @param {number} year 
    * @param {string} team 
    */
-  static async getSchedule(year = 2025, team = 'BYU') {
+  static async getSchedule(year = 2026, team = 'BYU') {
     try {
       const response = await cfbdClient.get('/games', { params: { year, team } });
 
@@ -37,11 +45,10 @@ class CFBDService {
         };
       });
     } catch (error) {
-      // Re-throw or handle network/API errors cleanly for the controller
       console.error(`[CFBD Service Error]: Failed to fetch schedule for ${team}`, error.message);
       throw new Error('Unable to retrieve schedule from College Football Data API.');
     }
   }
 }
 
-module.exports = CFBDService;
+export default CFBDService;
