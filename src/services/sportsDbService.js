@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 
 // Configure Axios instance for TheSportsDB
 const sportsDbClient = axios.create({
@@ -47,9 +47,9 @@ class SportsDBService {
       return null;
     } catch (error) {
       console.error(`[SportsDB Service Error]: Failed to fetch logo for "${teamName}"`, error.message);
-      return null; // Return null so the UI can safely render a default placeholder logo
+      return null;
     }
   }
 }
 
-module.exports = SportsDBService;
+export default SportsDBService;
