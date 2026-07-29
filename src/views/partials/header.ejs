@@ -1,68 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title || 'CougarStats | 2026 Fan Hub' %></title>
+  <title><%= typeof title !== 'undefined' ? title : 'Rise & Shout | BYU Football Fan Portal' %></title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            byuNavy: '#002E5D',
+            byuRoyal: '#0062B8',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="/css/main.css">
 </head>
-<body>
-  <div id="app">
-    <div class="app-layout">
-      
-      <header class="fan-header">
-        <div class="header-inner">
-          <!-- Brand -->
-          <div class="brand-block">
-            <img src="https://ssl.gstatic.com/onebox/media/sports/logos/optimized/hxz7taoji58jiIwg5XOu9A_120x120.png" alt="BYU Logo" id="byu-logo">
-            <div class="brand-text">
-              <h1>CougarStats</h1>
-              <p class="tagline">The 2026 Fan Hub</p>
+<body class="bg-[#001528] text-gray-100 min-h-screen overflow-x-hidden">
+
+  <!-- ====== NAVBAR ====== -->
+  <nav class="sticky top-0 z-50 bg-byuNavy/95 backdrop-blur-md border-b border-white/10 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 gap-3">
+        <!-- Logo -->
+        <a href="/" class="flex items-center gap-3 shrink-0">
+          <div class="relative w-10 h-10 rounded-full bg-gradient-to-br from-byuRoyal to-byuNavy flex items-center justify-center shadow-lg border-2 border-white/20">
+            <span class="text-xl font-black text-white leading-none">Y</span>
+            <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-amber-400 rounded-full flex items-center justify-center border-2 border-byuNavy">
+              <i class="fas fa-football text-[7px] text-byuNavy"></i>
             </div>
           </div>
+          <div class="hidden sm:block leading-none">
+            <h1 class="text-lg font-black tracking-tight text-white">RISE <span class="text-byuRoyal">&amp;</span> SHOUT</h1>
+            <p class="text-[10px] text-gray-400 tracking-[0.2em] uppercase mt-0.5">BYU Football Portal</p>
+          </div>
+        </a>
 
-          <!-- Desktop Navigation -->
-          <nav class="desktop-nav">
-            <a href="/" class="active">Home Hub</a>
-            <a href="#schedule">Schedule</a>
-            <a href="#roster">Roster</a>
-            <a href="#rivalry">Rivalries</a>
-          </nav>
-
-          <!-- Right Action Controls -->
-          <div class="header-actions">
-            <button id="theme-toggle" class="icon-btn" aria-label="Toggle Night Mode">🌙</button>
-            <button id="mobile-menu-btn" class="icon-btn hamburger-btn" aria-label="Open Navigation Menu">
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
+        <!-- Search (desktop) -->
+        <div class="flex-1 max-w-md hidden md:block">
+          <div class="relative">
+            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm pointer-events-none"></i>
+            <input type="text" id="searchInput" placeholder="Search opponents, rivalries..." class="w-full bg-white/5 border border-white/10 rounded-full pl-11 pr-4 py-2 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-byuRoyal focus:bg-white/10 transition">
           </div>
         </div>
 
-        <!-- Mobile Dropdown Drawer -->
-        <nav class="mobile-nav-drawer" id="mobile-drawer">
-          <a href="/" class="active">Home Hub</a>
-          <a href="#schedule">Full Schedule</a>
-          <a href="#roster">Roster Analytics</a>
-          <a href="#rivalry">Rivalry Grid</a>
-        </nav>
-
-        <!-- Live Context Ticker -->
-        <div class="rankings-banner">
-          <div class="marquee-scroller">
-            <span class="lead">🔥 Big 12 Live:</span>
-            <span>#1 Utah (0-0)</span> •
-            <span>#2 Kansas State (0-0)</span> •
-            <span class="highlight">#7 BYU Cougars (0-0)</span> •
-            <span>#8 Arizona (0-0)</span> •
-            <span>#9 Iowa State (0-0)</span> •
-            <span class="lead">🔥 Big 12 Live:</span>
-            <span>#1 Utah (0-0)</span> •
-            <span>#2 Kansas State (0-0)</span> •
-            <span class="highlight">#7 BYU Cougars (0-0)</span> •
-            <span>#8 Arizona (0-0)</span> •
-            <span>#9 Iowa State (0-0)</span>
+        <!-- Right -->
+        <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+          <button onclick="scrollToCreator()" class="flex items-center gap-2 bg-byuRoyal hover:bg-byuRoyal/80 text-white font-semibold text-sm px-3 sm:px-4 py-2 rounded-full transition shadow-md">
+            <i class="fas fa-fire text-amber-300 text-xs"></i>
+            <span class="hidden sm:inline">New Hype Post</span>
+          </button>
+          <div class="flex items-center gap-2">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-byuRoyal flex items-center justify-center font-bold text-sm text-white border-2 border-white/20">C</div>
+            <span class="hidden lg:block text-sm text-gray-300 font-medium">@CougarFan99</span>
           </div>
         </div>
-      </header>
+      </div>
+
+      <!-- Search (mobile) -->
+      <div class="md:hidden pb-3">
+        <div class="relative">
+          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm pointer-events-none"></i>
+          <input type="text" id="searchInputMobile" placeholder="Search opponents, rivalries..." class="w-full bg-white/5 border border-white/10 rounded-full pl-11 pr-4 py-2 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-byuRoyal focus:bg-white/10 transition">
+        </div>
+      </div>
+    </div>
+  </nav>

@@ -1,164 +1,269 @@
 <%- include('partials/header') %>
 
-<main class="home-container">
-  <!-- Hero Section -->
-  <section class="hero-section">
-    <div class="countdown-module">
-      <div class="hero-left">
-        <span class="badge live">
-          <span class="live-dot"></span> 
-          <%= nextGame ? 'Game Week ' + nextGame.week : 'Offseason' %>
+<main>
+  <!-- ====== HERO MODULE ====== -->
+  <section class="relative overflow-hidden py-12 sm:py-20">
+    <div class="absolute inset-0 bg-gradient-to-b from-byuNavy/30 via-transparent to-transparent"></div>
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-byuRoyal/10 rounded-full blur-3xl"></div>
+    <div class="absolute top-24 right-1/4 w-80 h-80 bg-byuRoyal/5 rounded-full blur-3xl"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-8">
+        <span class="inline-flex items-center gap-2 text-byuRoyal font-bold text-xs sm:text-sm tracking-[0.25em] uppercase">
+          <i class="fas fa-football"></i> 
+          <%= nextGame ? 'Game Week ' + nextGame.week : 'Next Game on the Horizon' %>
         </span>
-        <h2>Next Kickoff Tracker</h2>
-        <div class="matchup-strip">
-          <!-- BYU Team -->
-          <div class="team">
-            <img src="<%= (nextGame && nextGame.byuLogo) ? nextGame.byuLogo : 'https://ssl.gstatic.com/onebox/media/sports/logos/optimized/hxz7taoji58jiIwg5XOu9A_120x120.png' %>" alt="BYU Logo">
-            <h3>BYU</h3>
-          </div>
-          
-          <span class="vs-divider">VS</span>
-          
-          <!-- Opponent Team -->
-          <div class="team">
-            <% if (nextGame && nextGame.opponentLogo) { %>
-              <img src="<%= nextGame.opponentLogo %>" alt="<%= nextGame.opponent %> Logo">
-            <% } else { %>
-              <!-- Fallback badge if no logo image is returned -->
-              <div class="opp-badge-hero">
-                <%= nextGame ? nextGame.opponent.substring(0, 2).toUpperCase() : 'VS' %>
-              </div>
-            <% } %>
-            <h3><%= nextGame ? nextGame.opponent : 'Opponent' %></h3>
-          </div>
-        </div>
-
-        <p class="stadium-text">
-          🏟️ <%= nextGame ? nextGame.venue : 'TBD Venue' %> 
-          <%= nextGame && nextGame.isHome ? '| Provo, UT' : '' %>
-        </p>
       </div>
 
-      <div class="hero-right">
-        <!-- Pass the next game start date to JavaScript data attribute for the clock -->
-        <div class="countdown-clock" id="countdown-clock" data-kickoff="<%= nextGame ? nextGame.startDate : '' %>">
-          <div><span class="num" id="cd-days">--</span><span class="lbl">Days</span></div>
-          <div><span class="num" id="cd-hours">--</span><span class="lbl">Hours</span></div>
-          <div><span class="num" id="cd-mins">--</span><span class="lbl">Mins</span></div>
-          <div><span class="num" id="cd-secs">--</span><span class="lbl">Secs</span></div>
+      <!-- Game Card -->
+      <div class="hero-card max-w-4xl mx-auto bg-gradient-to-br from-[#00375E]/80 to-byuNavy/50 border border-white/10 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-sm relative overflow-hidden">
+        <div class="absolute inset-0 opacity-[0.04]" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,0.15) 35px, rgba(255,255,255,0.15) 70px);"></div>
+
+        <div class="relative flex items-center justify-around gap-4 sm:gap-8 flex-wrap">
+          <!-- BYU -->
+          <div class="text-center flex-1 min-w-[130px]">
+            <div class="w-20 h-20 sm:w-28 sm:h-28 mx-auto mb-3 rounded-full bg-gradient-to-br from-byuRoyal to-byuNavy flex items-center justify-center shadow-2xl border-4 border-white/10 overflow-hidden p-2">
+              <img src="<%= (nextGame && nextGame.byuLogo) ? nextGame.byuLogo : 'https://ssl.gstatic.com/onebox/media/sports/logos/optimized/hxz7taoji58jiIwg5XOu9A_120x120.png' %>" alt="BYU" class="w-full h-full object-contain">
+            </div>
+            <div class="text-3xl sm:text-4xl font-black text-white tracking-tight">BYU</div>
+            <div class="text-xs text-gray-400 uppercase tracking-wide font-semibold mt-1">Cougars</div>
+          </div>
+
+          <!-- VS -->
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+              <i class="fas fa-football text-2xl sm:text-3xl text-amber-400"></i>
+            </div>
+            <span class="text-xs font-black text-gray-500 tracking-[0.2em]">VS</span>
+          </div>
+
+          <!-- Opponent -->
+          <div class="text-center flex-1 min-w-[130px]">
+            <div class="w-20 h-20 sm:w-28 sm:h-28 mx-auto mb-3 rounded-full flex items-center justify-center shadow-2xl border-4 border-white/10 bg-white/5 overflow-hidden p-2">
+              <% if (nextGame && nextGame.opponentLogo) { %>
+                <img src="<%= nextGame.opponentLogo %>" alt="<%= nextGame.opponent %>" class="w-full h-full object-contain">
+              <% } else { %>
+                <span class="text-xl sm:text-2xl font-black text-white tracking-tight"><%= nextGame ? nextGame.opponent.substring(0, 3).toUpperCase() : 'OPP' %></span>
+              <% } %>
+            </div>
+            <div class="text-3xl sm:text-4xl font-black text-white tracking-tight"><%= nextGame ? nextGame.opponent : 'Opponent' %></div>
+            <div class="text-xs text-gray-400 uppercase tracking-wide font-semibold mt-1">Rival</div>
+          </div>
         </div>
-        
-        <div class="broadcast-tag">
-          📺 <strong>ESPN / BYUtv</strong> · 
-          <% if (nextGame && nextGame.startDate) { %>
-            <%= new Date(nextGame.startDate).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) %>
-          <% } else { %>
-            Date TBD
-          <% } %>
+
+        <!-- Game Details -->
+        <div class="mt-8 pt-6 border-t border-white/10 flex items-center justify-center gap-3 sm:gap-6 flex-wrap text-center">
+          <div class="flex items-center gap-2 text-gray-300">
+            <i class="fas fa-calendar-day text-byuRoyal"></i>
+            <span class="text-sm font-semibold">
+              <% if (nextGame && nextGame.startDate) { %>
+                <%= new Date(nextGame.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %>
+              <% } else { %>
+                Date TBD
+              <% } %>
+            </span>
+          </div>
+          <span class="text-gray-600 hidden sm:inline">•</span>
+          <div class="flex items-center gap-2 text-gray-300">
+            <i class="fas fa-location-dot text-byuRoyal"></i>
+            <span class="text-sm font-semibold"><%= nextGame ? nextGame.venue : 'TBD Venue' %></span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-8 flex items-center justify-center gap-4 flex-wrap">
+          <!-- Smooth scroll down to the Create Hype Post / Prediction form -->
+          <a href="#postCreator" class="flex items-center gap-2 bg-byuRoyal hover:bg-byuRoyal/80 text-white font-bold text-sm px-6 py-3 rounded-xl transition shadow-lg">
+            <i class="fas fa-bullseye"></i> Log Prediction
+          </a>
+
+          <!-- Smooth scroll down to the Rivalry section -->
+          <a href="#rivalry" class="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-sm px-6 py-3 rounded-xl transition">
+            <i class="fas fa-chart-bar"></i> View Rivalry
+          </a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Bento Grid Section -->
-  <section class="bento-grid">
-    <div class="bento-wrapper">
-      
-      <!-- Dynamic Schedule / Standings Table -->
-      <div class="dashboard-panel standings-widget">
-        <h3><%= year %> BYU Schedule</h3>
-        <table class="standings-table">
-          <thead>
-            <tr>
-              <th>Wk</th>
-              <th>Opponent</th>
-              <th>Site</th>
-              <th>Venue</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if (schedule && schedule.length > 0) { %>
+  <!-- ====== QUICK STATS BAR ====== -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 relative z-10">
+    <div class="grid grid-cols-3 gap-3 sm:gap-6">
+      <div class="bg-gradient-to-br from-byuNavy/60 to-[#00375E]/40 border border-white/10 rounded-2xl p-4 text-center">
+        <div class="text-2xl sm:text-3xl font-black text-white" id="totalPosts">3</div>
+        <div class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wide font-semibold mt-1">Hype Posts</div>
+      </div>
+      <div class="bg-gradient-to-br from-byuNavy/60 to-[#00375E]/40 border border-white/10 rounded-2xl p-4 text-center">
+        <div class="text-2xl sm:text-3xl font-black text-white">1,247</div>
+        <div class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wide font-semibold mt-1">Active Fans</div>
+      </div>
+      <div class="bg-gradient-to-br from-byuNavy/60 to-[#00375E]/40 border border-white/10 rounded-2xl p-4 text-center">
+        <div class="text-2xl sm:text-3xl font-black text-white" id="totalPredictions">3</div>
+        <div class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wide font-semibold mt-1">Predictions</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== RIVALRY & CONQUEST ====== -->
+  <section id="rivalry" class="py-12 sm:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-8">
+        <h2 class="text-2xl sm:text-3xl font-black text-white mb-1">Rivalry &amp; Conquest</h2>
+        <p class="text-gray-400 text-sm">The battles that define BYU football.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-6">
+        <!-- Holy War Card -->
+        <div class="bg-gradient-to-br from-[#00375E]/70 to-byuNavy/40 border border-white/10 rounded-2xl p-6">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h3 class="text-lg font-black text-white flex items-center gap-2">
+                <i class="fas fa-fire text-red-500"></i> Holy War
+              </h3>
+              <p class="text-xs text-gray-400 mt-1">BYU Cougars vs Utah Utes</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-9 h-9 rounded-full bg-gradient-to-br from-byuRoyal to-byuNavy flex items-center justify-center text-sm font-black text-white border border-white/10">Y</span>
+              <span class="text-gray-600 text-xs font-bold">VS</span>
+              <span class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-black text-white border border-white/10" style="background:#7A0000">U</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 mb-5">
+            <div class="bg-green-500/10 border border-green-500/20 rounded-xl p-4 text-center">
+              <div class="text-4xl font-black text-green-400">32</div>
+              <div class="text-xs text-gray-400 uppercase tracking-wide font-semibold mt-1">Wins</div>
+            </div>
+            <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-center">
+              <div class="text-4xl font-black text-red-400">31</div>
+              <div class="text-xs text-gray-400 uppercase tracking-wide font-semibold mt-1">Losses</div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs text-gray-400 uppercase tracking-wide font-semibold">Hype Level</span>
+              <span class="text-xs font-black text-amber-400">87%</span>
+            </div>
+            <div class="h-3 bg-white/5 rounded-full overflow-hidden">
+              <div class="h-full rounded-full hype-bar" style="width: 87%; transition: width 1.2s ease-out;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Conquest Grid -->
+        <div class="bg-gradient-to-br from-[#00375E]/70 to-byuNavy/40 border border-white/10 rounded-2xl p-6">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h3 class="text-lg font-black text-white flex items-center gap-2">
+                <i class="fas fa-trophy text-amber-400"></i> <%= typeof year !== 'undefined' ? year : '2026' %> Schedule
+              </h3>
+              <p class="text-xs text-gray-400 mt-1">Opponents faced this season</p>
+            </div>
+          </div>
+
+          <div id="conquestGrid" class="grid grid-cols-3 sm:grid-cols-4 gap-3">
+            <% if (typeof schedule !== 'undefined' && schedule.length > 0) { %>
               <% schedule.forEach(game => { %>
-                <tr>
-                  <td><strong>Wk <%= game.week %></strong></td>
-                  <td style="display: flex; align-items: center; gap: 8px;">
-                    <img src="<%= game.opponentLogo %>" width="20" height="20" alt="" style="object-fit: contain;">
-                    <%= game.opponent %>
-                  </td>
-                  <td><%= game.isHome ? 'Home' : 'Away' %></td>
-                  <td><%= game.venue %></td>
-                  <td>
-                    <% if (game.completed) { %>
-                      <span style="color: #4CAF50; font-weight: bold;">Final</span>
-                    <% } else { %>
-                      <span style="color: #888;">Upcoming</span>
-                    <% } %>
-                  </td>
-                </tr>
+                <div class="relative bg-white/5 border border-white/10 rounded-xl p-3 flex flex-col items-center gap-2">
+                  <div class="w-10 h-10 rounded-full flex items-center justify-center font-black text-white text-[10px] shadow-lg border border-white/10 bg-byuNavy">
+                    <img src="<%= game.opponentLogo %>" class="w-6 h-6 object-contain" alt="">
+                  </div>
+                  <span class="text-[10px] text-gray-400 font-medium text-center leading-tight truncate w-full"><%= game.opponent %></span>
+                  <% if (game.completed) { %>
+                    <div class="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center border-2 border-[#001528]"><i class="fas fa-check text-white text-[8px]"></i></div>
+                  <% } else { %>
+                    <div class="absolute -top-1 -right-1 w-5 h-5 bg-gray-700 rounded-full flex items-center justify-center border-2 border-[#001528]"><i class="fas fa-clock text-gray-400 text-[8px]"></i></div>
+                  <% } %>
+                </div>
               <% }) %>
-            <% } else { %>
-              <tr><td colspan="5">Unable to load schedule data.</td></tr>
             <% } %>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Result Highlight Widget (Most recent completed game) -->
-      <% const lastGame = schedule.filter(g => g.completed).pop(); %>
-      <div class="dashboard-panel results-widget">
-        <h3>Latest Game Breakdown</h3>
-        <div class="result-hero-card win">
-          <div class="bowl-tag">
-            <%= lastGame ? 'Week ' + lastGame.week : 'Season Preview' %>
           </div>
-          <div class="score-display">
-            <span class="team-name">BYU</span>
-            <span class="final-score">
-              <%= lastGame ? 'Final' : '0 - 0' %>
-            </span>
-            <span class="team-name">
-              <%= lastGame ? lastGame.opponent : 'Opponent' %>
-            </span>
-          </div>
-          <p class="game-meta">
-            <%= lastGame ? lastGame.venue : 'No completed games played yet.' %>
-          </p>
         </div>
       </div>
-
     </div>
   </section>
 
-  <!-- Spotlight Section -->
-  <section class="spotlight-section">
-    <h2><%= year %> Key Catalysts</h2>
-    <div class="spotlight-cards-wrapper">
-      <!-- Dynamic player cards can be dynamically populated here if passed from controller -->
-    </div>
-  </section>
+  <!-- ====== COMMUNITY HYPE FEED ====== -->
+  <section id="hype-feed" class="py-12 sm:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-8">
+        <h2 class="text-2xl sm:text-3xl font-black text-white mb-1 flex items-center gap-3 flex-wrap">
+          Community Hype Feed
+          <span class="inline-flex items-center gap-1.5 text-xs bg-red-500/10 border border-red-500/20 text-red-400 px-2.5 py-1 rounded-full font-bold">
+            <span class="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse"></span> LIVE
+          </span>
+        </h2>
+        <p class="text-gray-400 text-sm">Share your hot takes and game predictions.</p>
+      </div>
 
-  <!-- Community Section -->
-  <section class="community-zone">
-    <div class="poll-section">
-      <h3 class="poll-question">🏆 What's BYU's ceiling in <%= year %>?</h3>
-      <div class="poll-options" id="poll-options">
-        <div class="poll-option" data-votes="184">
-          <div class="poll-fill" style="width: 46.7%;"></div>
-          <div class="poll-content">
-            <span class="poll-text">Big 12 Champions &amp; College Football Playoff</span>
-            <span class="poll-percent">46.7%</span>
+      <div class="grid lg:grid-cols-3 gap-6">
+        <!-- Post Creator -->
+        <div class="lg:col-span-1 lg:sticky lg:top-24 lg:self-start">
+          <div id="postCreator" class="bg-gradient-to-br from-[#00375E]/70 to-byuNavy/40 border border-white/10 rounded-2xl p-5">
+            <h3 class="text-sm font-bold text-white mb-4 flex items-center gap-2">
+              <i class="fas fa-pen-to-square text-byuRoyal"></i> Create Hype Post
+            </h3>
+
+            <div class="flex gap-3 mb-4">
+              <div class="shrink-0 w-11 h-11 rounded-full bg-gradient-to-br from-amber-400 to-byuRoyal flex items-center justify-center font-bold text-sm text-white border-2 border-white/10">C</div>
+              <div class="flex-1">
+                <textarea id="postContent" rows="4" placeholder="What's your hot take on the upcoming game?" class="w-full bg-[#001528] border border-white/10 rounded-xl p-3 text-sm text-gray-200 placeholder-gray-500 resize-none focus:outline-none focus:border-byuRoyal focus:ring-1 focus:ring-byuRoyal transition"></textarea>
+                <p class="text-xs text-gray-500 mt-1">@CougarFan99</p>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <div>
+                <label class="text-[10px] text-gray-400 uppercase tracking-wide font-semibold mb-1.5 block">Select Opponent</label>
+                <div class="relative">
+                  <select id="postOpponent" class="w-full bg-[#001528] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-byuRoyal transition cursor-pointer appearance-none pr-9">
+                    <option value="">Select Opponent</option>
+                  </select>
+                  <i class="fas fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs pointer-events-none"></i>
+                </div>
+              </div>
+
+              <div>
+                <label class="text-[10px] text-gray-400 uppercase tracking-wide font-semibold mb-1.5 block">Score Prediction <span class="text-gray-600 normal-case">(optional)</span></label>
+                <div class="flex items-center gap-2">
+                  <div class="flex-1">
+                    <div class="flex items-center gap-1.5 bg-[#001528] border border-white/10 rounded-xl px-3 py-2 focus-within:border-byuRoyal transition">
+                      <span class="text-[10px] font-black text-byuRoyal">BYU</span>
+                      <input type="number" id="byuScore" min="0" max="99" placeholder="31" class="w-full bg-transparent text-center text-sm text-white font-bold focus:outline-none placeholder-gray-600">
+                    </div>
+                  </div>
+                  <span class="text-gray-500 font-bold text-sm">—</span>
+                  <div class="flex-1">
+                    <div class="flex items-center gap-1.5 bg-[#001528] border border-white/10 rounded-xl px-3 py-2 focus-within:border-byuRoyal transition">
+                      <span class="text-[10px] font-black text-gray-500">OPP</span>
+                      <input type="number" id="oppScore" min="0" max="99" placeholder="24" class="w-full bg-transparent text-center text-sm text-white font-bold focus:outline-none placeholder-gray-600">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button onclick="submitPost()" class="w-full flex items-center justify-center gap-2 bg-byuRoyal hover:bg-byuRoyal/80 text-white font-bold text-sm px-4 py-3 rounded-xl transition shadow-lg">
+                <i class="fas fa-fire text-amber-300"></i> Post Hype
+              </button>
+            </div>
           </div>
         </div>
-        <div class="poll-option" data-votes="132">
-          <div class="poll-fill" style="width: 33.5%;"></div>
-          <div class="poll-content">
-            <span class="poll-text">10+ win season and a New Year's Six bowl</span>
-            <span class="poll-percent">33.5%</span>
+
+        <!-- Feed Column -->
+        <div class="lg:col-span-2">
+          <!-- Filter Tabs -->
+          <div class="flex items-center gap-2 mb-4 overflow-x-auto hide-scrollbar pb-1">
+            <button onclick="setFilter('all')" data-filter="all" class="filter-tab active px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition">All Posts</button>
+            <button onclick="setFilter('holy-war')" data-filter="holy-war" class="filter-tab px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition">Holy War</button>
+            <button onclick="setFilter('big-12')" data-filter="big-12" class="filter-tab px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition">Big 12</button>
+            <button onclick="setFilter('predictions')" data-filter="predictions" class="filter-tab px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition">Predictions</button>
           </div>
+
+          <!-- Timeline -->
+          <div id="feedTimeline"></div>
         </div>
       </div>
-      <p class="poll-thanks" id="poll-thanks">✅ Vote counted! Go Cougs — rise and shout!</p>
     </div>
   </section>
 </main>
