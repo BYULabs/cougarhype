@@ -1,87 +1,122 @@
-# 🏈 CougarStats | 2026 BYU Football Fan Central
+# CougarHype 🐾🏈
 
-> **Modern 2026 BYU football fan hub & analytics site built with Vite, vanilla JS, and modular CSS.**
+> **Live Application:** [cougarhype.onrender.com](https://cougarhype.onrender.com/)
 
-CougarStats is a high-performance, mobile-responsive web application designed for BYU football fans. It features game countdowns, live standings, interactive fan polls, player spotlights, and a dark mode toggle—all built with component-driven architecture in Vite.
-
----
-
-## ✨ Features
-
-- **⚡ Instant Build & HMR:** Powered by **Vite** for near-instant development reloads.
-- **📱 Mobile-First Responsive Design:** Clean mobile header with slide-out drawer menu and horizontal touch swiper for player spotlights.
-- **🌙 Night / Day Mode:** Custom BYU color-system themes that persist across dark and light modes.
-- **⏱️ Live Matchup Countdown:** Dynamic JavaScript timer counting down to Game Week 1 kickoff against Utah Tech.
-- **📊 Interactive Fan Poll:** Real-time percentage visualization for fan season projections.
-- **🧩 Component-Level CSS Architecture:** Zero monolithic stylesheets—each JS module owns its template, interactivity, and CSS file.
+**CougarHype** is a full-stack Express.js web application built to bring high-energy sports data, game analytics, and team insights together in one seamless portal. By leveraging third-party sports APIs (College Football Data API and TheSportsDB API), CougarHype provides dynamic views, schedules, and stats rendered server-side via EJS.
 
 ---
 
-## 📁 Project Architecture
+## 🚀 Features
 
+- **Real-Time Sports Data:** Integration with **College Football Data (CFBD)** and **TheSportsDB** APIs for live-updated stats and scores.
+- **Server-Side Rendering:** Clean component-based rendering powered by **EJS** templates and modular partials.
+- **Modular Architecture:** Clean separation of concerns adhering to the MVC pattern (Controllers, Services, Views, Routes).
+- **Custom Error Handling:** Dedicated error handling middleware and polished 404/500 view pages.
+- **Production Ready:** Optimized and configured for seamless continuous deployment on **Render**.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Backend:** Node.js, Express.js
+- **Frontend / Templating:** EJS (Embedded JavaScript), Vanilla JavaScript, CSS3
+- **Services & APIs:** 
+  - [College Football Data API (CFBD)](https://collegefootballdata.com/)
+  - [TheSportsDB API](https://www.thesportsdb.com/)
+- **Hosting / PaaS:** [Render](https://render.com)
+
+---
+
+## 📂 Project Structure
+
+```text
+cougarhype/
+├── public/                 # Static assets directory
+│   ├── css/
+│   │   └── main.css        # Application styling
+│   └── js/
+│       └── main.js         # Client-side JavaScript
+├── src/                    # Backend source directory
+│   ├── controllers/        # Request handlers & logic
+│   │   ├── errors.js       # Error rendering controllers
+│   │   └── index.js        # Main route controllers
+│   ├── services/           # Third-party API integrations
+│   │   ├── cfbdService.js  # College Football Data API service
+│   │   └── sportsDbService.js # TheSportsDB API service
+│   ├── views/              # EJS template views
+│   │   ├── errors/         # 404 & 500 error view pages
+│   │   │   ├── 404.ejs
+│   │   │   └── 500.ejs
+│   │   ├── partials/       # Reusable UI partials (header, footer, etc.)
+│   │   │   ├── footer.ejs
+│   │   │   └── header.ejs
+│   │   └── index.ejs       # Main homepage view
+│   └── routes.js           # Route definitions & mapping
+├── .gitignore              # Files to ignore in Git repository
+├── package.json            # Dependencies and scripts
+├── package-lock.json       # Locked dependency versions
+├── README.md               # Project documentation
+└── server.js               # Application entry point
 ```
-cougar-stats/
-├── index.html                  # App shell & Google Fonts imports
-├── src/
-│   ├── style.css               # Global design tokens & BYU color variables
-│   ├── main.js                 # App entry point
-│   ├── views/
-│   │   ├── HomeView.js         # Assembles all homepage modules
-│   │   └── HomeView.css        # Page container layout rules
-│   └── components/
-│       ├── Header/             # Brand logo, nav drawer, & marquee ticker
-│       ├── CountdownHero/      # Matchup card & live countdown timer
-│       ├── SeasonPulse/        # Big 12 standings & Pop-Tarts Bowl result
-│       ├── PlayerSpotlights/   # Touch-friendly player cards swiper
-│       ├── FanPoll/            # Dynamic voting widget & percentage fills
-│       └── Footer/             # Social links & legal attribution
-```
 
 ---
 
-## 🛠️ Getting Started
+## ⚡ Quick Start & Local Setup
 
 ### Prerequisites
-Make sure you have **Node.js (v18 or higher)** installed on your system.
 
-### Installation
+Ensure you have the following installed on your machine:
+- [Node.js](https://nodejs.org/) (v16+ recommended)
+- [npm](https://www.npmjs.com/) (bundled with Node.js)
 
-1. Clone the repository:
-```bash
-git clone https://github.com/BYULabs/cougarstats.git
-cd cougarstats
-```
+### Installation Steps
 
-2. Install dependencies:
-```bash
-npm install
-```
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/BYULabs/cougarhype.git
+   cd cougarhype
+   ```
 
-3. Start the local development server:
-```bash
-npm run dev
-```
+2. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
 
-4. Open your browser and navigate to `http://localhost:5173`.
+3. **Environment Variables Configuration:**
+   Create a `.env` file in the root of the project (or set variables in your server environment):
+   ```env
+   PORT=3000
+   CFBD_API_KEY=your_college_football_data_api_key
+   ```
 
-5. Build for production:
-```bash
-npm run build
-```
+4. **Run the Application:**
+   - **Development Mode** (with auto-reload if nodemon is installed):
+     ```bash
+     npm run dev
+     ```
+   - **Production Mode:**
+     ```bash
+     npm start
+     ```
 
-> The production-ready assets will be compiled into the `dist/` directory.
+5. **Access in Browser:**
+   Open your browser and navigate to `http://localhost:3000`.
 
 ---
 
-## 🎨 Tech Stack
+## ☁️ Deployment on Render
 
-- **Build Tool:** Vite
-- **Language:** JavaScript (ES6+ Native Modules)
-- **Styling:** CSS3 (Custom Properties & Modular Component CSS)
-- **Typography:** Oswald, Inter, & Roboto Condensed (via Google Fonts)
+This application is deployed as a Web Service on **Render**.
+
+### Environment Setup on Render:
+1. Connect your repository to Render.
+2. Set the build and start commands:
+   - **Build Command:** `npm install`
+   - **Start Command:** `node server.js`
+3. Add any required environment keys (such as `CFBD_API_KEY`) under **Environment Variables**.
 
 ---
 
-## 📝 License & Attribution
+## 📄 License
 
-Built for WDD 330. Data compiled from public sports information collections. This is an open-source fan-made project and is not officially affiliated with BYU Athletics.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
