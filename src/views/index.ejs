@@ -17,7 +17,7 @@
 
       <!-- Game Card -->
       <div class="hero-card max-w-4xl mx-auto bg-gradient-to-br from-[#00375E]/80 to-byuNavy/50 border border-white/10 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-sm relative overflow-hidden">
-        <div class="absolute inset-0 opacity-[0.04]" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,0.15) 35px, rgba(255,255,255,0.15) 70px);"></div>
+        <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,0.15) 35px, rgba(255,255,255,0.15) 70px);"></div>
 
         <div class="relative flex items-center justify-around gap-4 sm:gap-8 flex-wrap">
           <!-- BYU -->
@@ -72,15 +72,20 @@
 
         <!-- Action Buttons -->
         <div class="mt-8 flex items-center justify-center gap-4 flex-wrap">
-          <!-- Smooth scroll down to the Create Hype Post / Prediction form -->
           <a href="#postCreator" class="flex items-center gap-2 bg-byuRoyal hover:bg-byuRoyal/80 text-white font-bold text-sm px-6 py-3 rounded-xl transition shadow-lg">
             <i class="fas fa-bullseye"></i> Log Prediction
           </a>
 
-          <!-- Smooth scroll down to the Rivalry section -->
-          <a href="#rivalry" class="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-sm px-6 py-3 rounded-xl transition">
-            <i class="fas fa-chart-bar"></i> View Rivalry
-          </a>
+          <!-- Dynamic Rivalry Link -->
+          <% if (nextGame && nextGame.opponent) { %>
+            <a href="/rivalry/<%= encodeURIComponent(nextGame.opponent) %>" class="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-sm px-6 py-3 rounded-xl transition">
+              <i class="fas fa-chart-bar"></i> View Rivalry
+            </a>
+          <% } else { %>
+            <a href="#rivalry" class="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-sm px-6 py-3 rounded-xl transition">
+              <i class="fas fa-chart-bar"></i> View Rivalry
+            </a>
+          <% } %>
         </div>
       </div>
     </div>
