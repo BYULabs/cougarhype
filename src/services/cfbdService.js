@@ -49,6 +49,25 @@ class CFBDService {
       throw new Error('Unable to retrieve schedule from College Football Data API.');
     }
   }
+
+  /**
+   * Fetches head-to-head matchup metrics between BYU and an opponent
+   * @param {string} opponent 
+   * @param {string} team 
+   */
+  static async getMatchup(opponent, team = 'BYU') {
+    try {
+      const response = await cfbdClient.get('/teams/matchup', {
+        params: { team1: team, team2: opponent }
+      });
+      return response.data;
+    } catch (error) {
+      console.error(`[CFBD Service Error]: Failed to fetch matchup for ${team} vs ${opponent}`, error.message);
+      throw new Error('Unable to retrieve matchup data from College Football Data API.');
+    }
+  }
 }
+
+
 
 export default CFBDService;
