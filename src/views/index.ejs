@@ -78,7 +78,7 @@
 
           <!-- Dynamic Rivalry Link -->
           <% if (nextGame && nextGame.opponent) { %>
-            <a href="/rivalry/<%= encodeURIComponent(nextGame.opponent) %>" class="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-sm px-6 py-3 rounded-xl transition">
+            <a href="/rivalry/<%= nextGame.opponent.toLowerCase().replace(/\s+/g, '-') %>" class="...">
               <i class="fas fa-chart-bar"></i> View Rivalry
             </a>
           <% } else { %>
