@@ -1,3 +1,73 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const menuToggleBtn = document.getElementById('menuToggleBtn');
+  const menuIcon = document.getElementById('menuIcon');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  const searchToggleBtn = document.getElementById('searchToggleBtn');
+  const mobileSearchSubbar = document.getElementById('mobileSearchSubbar');
+  const searchInputMobile = document.getElementById('searchInputMobile');
+  const searchInputDesktop = document.getElementById('searchInputDesktop');
+
+  // Toggle Hamburger Menu
+  if (menuToggleBtn && mobileMenu) {
+    menuToggleBtn.addEventListener('click', () => {
+      const isHidden = mobileMenu.classList.toggle('hidden');
+      menuIcon.className = isHidden ? 'fas fa-bars text-base' : 'fas fa-xmark text-base';
+      if (!isHidden) mobileSearchSubbar.classList.add('hidden'); // Close search subbar if menu opens
+    });
+  }
+
+  // Toggle Search Sub-Bar on Mobile
+  if (searchToggleBtn && mobileSearchSubbar) {
+    searchToggleBtn.addEventListener('click', () => {
+      const isHidden = mobileSearchSubbar.classList.toggle('hidden');
+      if (!isHidden) {
+        mobileMenu.classList.add('hidden'); // Close main menu if search opens
+        menuIcon.className = 'fas fa-bars text-base';
+        searchInputMobile.focus();
+      }
+    });
+  }
+
+  // Sync mobile & desktop search inputs to feed filter logic[cite: 3]
+  const handleSearch = (e) => {
+    if (typeof searchQuery !== 'undefined' && typeof renderFeed === 'function') {
+      searchQuery = e.target.value.toLowerCase().trim(); //[cite: 3]
+      renderFeed(); //[cite: 3]
+    }
+  };
+
+  if (searchInputDesktop) searchInputDesktop.addEventListener('input', handleSearch);
+  if (searchInputMobile) searchInputMobile.addEventListener('input', handleSearch);
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const navbar = document.getElementById('mainNavbar');
+  let lastScrollY = window.scrollY;
+
+  window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+
+    // Don't hide navbar if scrolled near the top of the page
+    if (currentScrollY < 50) {
+      navbar.classList.remove('-translate-y-full');
+      lastScrollY = currentScrollY;
+      return;
+    }
+
+    // Scrolling down -> Hide navbar
+    if (currentScrollY > lastScrollY) {
+      navbar.classList.add('-translate-y-full');
+    } 
+    // Scrolling up -> Show navbar
+    else {
+      navbar.classList.remove('-translate-y-full');
+    }
+
+    lastScrollY = currentScrollY;
+  });
+});
+
 // Local client state for interactive posts and social feed
 let posts = [
   {
