@@ -1,53 +1,238 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 
-html { scroll-behavior: smooth; }
-body { font-family: 'Inter', system-ui, sans-serif; }
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: "Inter", system-ui, sans-serif;
+}
 
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: #001528; }
-::-webkit-scrollbar-thumb { background: #0062B8; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #0080E0; }
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #001528;
+}
+::-webkit-scrollbar-thumb {
+  background: #0062b8;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0080e0;
+}
 
-.hide-scrollbar::-webkit-scrollbar { display: none; }
-.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
+/* Number Inputs */
 input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-input[type="number"] { -moz-appearance: textfield; }
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 
-.hype-bar { background: linear-gradient(90deg, #0062B8, #00A3E0 60%, #FFD700); }
+/* Color & Gradient Bars */
+.hype-bar {
+  background: linear-gradient(90deg, #0062b8, #00a3e0 60%, #ffd700);
+}
+.ute-bar {
+  background: linear-gradient(90deg, #7a0000, #cc0000 60%, #ffd700);
+}
+.divider-gradient {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+}
 
-.post-card { transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease; }
-.post-card:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(0, 46, 93, 0.35); }
+/* Card & Component Transitions */
+.post-card {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    opacity 0.3s ease;
+}
+.post-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 36px rgba(0, 46, 93, 0.35);
+}
+
+.stat-card {
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
+}
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 98, 184, 0.4);
+}
+
+.game-row {
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+.game-row:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(0, 98, 184, 0.3);
+}
 
 .filter-tab {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: #d1d5db;
 }
-.filter-tab:hover { background: rgba(255,255,255,0.1); }
+.filter-tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
 .filter-tab.active {
-  background: linear-gradient(135deg, #0062B8, #0080E0);
+  background: linear-gradient(135deg, #0062b8, #0080e0);
   border: 1px solid transparent;
   color: #fff;
-  box-shadow: 0 4px 14px rgba(0,98,184,0.35);
+  box-shadow: 0 4px 14px rgba(0, 98, 184, 0.35);
 }
 
-.animate-fadeIn { animation: fadeIn 0.4s ease-out; }
-@keyframes fadeIn { 
-  from { opacity: 0; transform: translateY(12px); } 
-  to { opacity: 1; transform: translateY(0); } 
+/* Dynamic Keyframe Animations */
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@keyframes pulse-glow { 
-  0%,100% { box-shadow: 0 0 20px rgba(0,98,184,0.3); } 
-  50% { box-shadow: 0 0 35px rgba(0,98,184,0.5); } 
+.hero-card {
+  animation: pulse-glow 4s ease-in-out infinite;
 }
-.hero-card { animation: pulse-glow 4s ease-in-out infinite; }
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(0, 98, 184, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(0, 98, 184, 0.5);
+  }
+}
 
-.heart-pop { animation: heartPop 0.3s ease; }
-@keyframes heartPop { 
-  0% { transform: scale(1); } 
-  50% { transform: scale(1.35); } 
-  100% { transform: scale(1); } 
+.heart-pop {
+  animation: heartPop 0.3s ease;
+}
+@keyframes heartPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.35);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Live News Marquee */
+.animate-marquee {
+  display: inline-flex;
+  animation: marquee 20s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Floating Helmets & Logos */
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Subtle Countdown Pulse */
+.animate-tick {
+  animation: tick 1s ease-in-out infinite;
+}
+@keyframes tick {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* Smooth hover scale and glow for list items & grid cards */
+.battle-card {
+  transition:
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.battle-card:hover {
+  transform: translateX(6px);
+  border-color: rgba(0, 98, 184, 0.5);
+  box-shadow: 0 4px 20px rgba(0, 98, 184, 0.2);
+}
+
+.grid-card {
+  transition:
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.grid-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  border-color: rgba(0, 98, 184, 0.5);
+  box-shadow: 0 8px 24px rgba(0, 98, 184, 0.25);
+}
+
+/* Swords icon rotation on hover */
+.group:hover .fa-swords {
+  transform: rotate(15deg) scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+/* Pulsing highlight for completed games badge */
+.status-badge {
+  animation: badge-pulse 2s infinite;
+}
+@keyframes badge-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
 }
