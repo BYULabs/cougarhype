@@ -41,12 +41,32 @@ const getHomePage = async (req, res) => {
       nextGame = schedule.find(g => !g.completed) || schedule[schedule.length - 1];
     }
 
-    // 6. Render EJS view with API payload
+    // 6. Build dynamic ticker items from API schedule data
+    const tickerItems = [];
+
+    if (nextGame) {
+      const formattedDate = nextGame.startDate 
+        ? new Date(nextGame.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+        : 'TBD';
+      tickerItems.push(`🏈 NEXT MATCHUP: BYU vs ${nextGame.opponent} (${formattedDate} at ${nextGame.venue})`);
+    }
+
+    const completedGames = schedule.filter(g => g.completed);
+    if (completedGames.length > 0) {
+      const lastGame = completedGames[completedGames.length - 1];
+      tickerItems.push(`🏆 RECENT GAME: BYU vs ${lastGame.opponent} (Week ${lastGame.week})`);
+    }
+
+    tickerItems.push(`📊 ${year} SEASON SCHEDULE: ${schedule.length} Total Games Scheduled`);
+    tickerItems.push(`⚡ LIVE COVERAGE: Stay tuned for active fan hype posts & score predictions`);
+
+    // 7. Render EJS view with API payload
     res.render('index', {
       title: `CougarStats | ${year} Fan Hub`,
       year,
       nextGame,
       schedule,
+      tickerItems,
       page: 'home'
     });
 
@@ -59,6 +79,7 @@ const getHomePage = async (req, res) => {
       year: 2026,
       nextGame: null,
       schedule: [],
+      tickerItems: ['⚡ BYU Football Fan Hub — Live Game Coverage'],
       page: 'home'
     });
   }
