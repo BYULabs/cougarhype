@@ -1,92 +1,128 @@
 <%- include('partials/header') %>
 
+<!-- ====== DYNAMIC LIVE NEWS TICKER ====== -->
+<div class="bg-byuNavy border-b border-white/10 py-2 overflow-hidden whitespace-nowrap flex items-center pt-16 sm:pt-20">
+  <span class="bg-amber-400 text-byuNavy font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase ml-4 mr-3 shrink-0 flex items-center gap-1 shadow-md">
+    <i class="fas fa-bolt text-[9px] animate-tick"></i> API Feed
+  </span>
+
+  <div class="inline-flex gap-8 animate-marquee text-xs font-semibold text-gray-300">
+    <% if (typeof tickerItems !== 'undefined' && tickerItems.length > 0) { %>
+      <% tickerItems.forEach(item => { %>
+        <span><%= item %></span>
+      <% }) %>
+      <!-- Duplicate items once so the marquee scrolls seamlessly -->
+      <% tickerItems.forEach(item => { %>
+        <span><%= item %></span>
+      <% }) %>
+    <% } else { %>
+      <span>🔥 BYU Football Portal — Live Game Week Coverage</span>
+    <% } %>
+  </div>
+</div>
+
 <main>
   <!-- ====== HERO MODULE ====== -->
-  <section class="relative overflow-hidden py-12 sm:py-20">
-    <div class="absolute inset-0 bg-gradient-to-b from-byuNavy/30 via-transparent to-transparent"></div>
-    <div class="absolute top-0 left-1/4 w-96 h-96 bg-byuRoyal/10 rounded-full blur-3xl"></div>
-    <div class="absolute top-24 right-1/4 w-80 h-80 bg-byuRoyal/5 rounded-full blur-3xl"></div>
+  <section class="relative overflow-hidden py-8 sm:py-16">
+    <!-- Subtle Background Accents -->
+    <div class="absolute inset-0 bg-gradient-to-b from-byuNavy/40 via-transparent to-transparent"></div>
+    <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-[280px] sm:w-[500px] h-[280px] sm:h-[500px] bg-byuRoyal/15 rounded-full blur-3xl pointer-events-none"></div>
 
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-8">
-        <span class="inline-flex items-center gap-2 text-byuRoyal font-bold text-xs sm:text-sm tracking-[0.25em] uppercase">
-          <i class="fas fa-football"></i> 
-          <%= nextGame ? 'Game Week ' + nextGame.week : 'Next Game on the Horizon' %>
+      
+      <!-- Week Badge -->
+      <div class="text-center mb-4 sm:mb-6">
+        <span class="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full text-byuRoyal font-bold text-xs tracking-widest uppercase">
+          <i class="fas fa-football text-amber-400 animate-tick"></i> 
+          <%= nextGame ? 'Game Week ' + nextGame.week : 'Next Game' %>
         </span>
       </div>
 
-      <!-- Game Card -->
-      <div class="hero-card max-w-4xl mx-auto bg-gradient-to-br from-[#00375E]/80 to-byuNavy/50 border border-white/10 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-sm relative overflow-hidden">
-        <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,0.15) 35px, rgba(255,255,255,0.15) 70px);"></div>
-
-        <div class="relative flex items-center justify-around gap-4 sm:gap-8 flex-wrap">
-          <!-- BYU -->
-          <div class="text-center flex-1 min-w-[130px]">
-            <div class="w-20 h-20 sm:w-28 sm:h-28 mx-auto mb-3 rounded-full bg-gradient-to-br from-byuRoyal to-byuNavy flex items-center justify-center shadow-2xl border-4 border-white/10 overflow-hidden p-2">
-              <img src="<%= (nextGame && nextGame.byuLogo) ? nextGame.byuLogo : 'https://ssl.gstatic.com/onebox/media/sports/logos/optimized/hxz7taoji58jiIwg5XOu9A_120x120.png' %>" alt="BYU" class="w-full h-full object-contain">
+      <!-- Main Hero Matchup Card -->
+      <div class="hero-card max-w-3xl mx-auto bg-gradient-to-br from-[#00375E]/90 to-byuNavy/70 border border-white/10 rounded-3xl p-5 sm:p-8 shadow-2xl backdrop-blur-md relative overflow-hidden">
+        
+        <!-- Matchup Row -->
+        <div class="grid grid-cols-3 items-center gap-2 sm:gap-6 text-center">
+          
+          <!-- BYU Side (Added Floating Animation) -->
+          <div class="flex flex-col items-center">
+            <div class="animate-float w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-byuRoyal to-byuNavy flex items-center justify-center shadow-xl border-2 sm:border-4 border-white/20 p-2 transition transform hover:scale-105">
+              <img 
+                src="<%= (nextGame && nextGame.byuLogo) ? nextGame.byuLogo : 'https://ssl.gstatic.com/onebox/media/sports/logos/optimized/hxz7taoji58jiIwg5XOu9A_120x120.png' %>" 
+                alt="BYU" 
+                class="w-full h-full object-contain"
+              >
             </div>
-            <div class="text-3xl sm:text-4xl font-black text-white tracking-tight">BYU</div>
-            <div class="text-xs text-gray-400 uppercase tracking-wide font-semibold mt-1">Cougars</div>
+            <h2 class="text-xl sm:text-3xl font-black text-white tracking-tight mt-2 sm:mt-3">BYU</h2>
+            <span class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-widest font-semibold">Cougars</span>
           </div>
 
-          <!-- VS -->
-          <div class="flex flex-col items-center gap-2">
-            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-              <i class="fas fa-football text-2xl sm:text-3xl text-amber-400"></i>
+          <!-- VS Divider Center -->
+          <div class="flex flex-col items-center justify-center">
+            <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shadow-inner">
+              <i class="fas fa-football text-base sm:text-2xl text-amber-400"></i>
             </div>
-            <span class="text-xs font-black text-gray-500 tracking-[0.2em]">VS</span>
+            <span class="text-xs sm:text-sm font-black text-gray-400 tracking-widest mt-1.5">VS</span>
           </div>
 
-          <!-- Opponent -->
-          <div class="text-center flex-1 min-w-[130px]">
-            <div class="w-20 h-20 sm:w-28 sm:h-28 mx-auto mb-3 rounded-full flex items-center justify-center shadow-2xl border-4 border-white/10 bg-white/5 overflow-hidden p-2">
+          <!-- Opponent Side (Added Floating Animation) -->
+          <div class="flex flex-col items-center">
+            <div class="animate-float w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-white/5 flex items-center justify-center shadow-xl border-2 sm:border-4 border-white/20 p-2 transition transform hover:scale-105">
               <% if (nextGame && nextGame.opponentLogo) { %>
                 <img src="<%= nextGame.opponentLogo %>" alt="<%= nextGame.opponent %>" class="w-full h-full object-contain">
               <% } else { %>
-                <span class="text-xl sm:text-2xl font-black text-white tracking-tight"><%= nextGame ? nextGame.opponent.substring(0, 3).toUpperCase() : 'OPP' %></span>
+                <span class="text-lg sm:text-2xl font-black text-white tracking-tight">
+                  <%= nextGame ? nextGame.opponent.substring(0, 3).toUpperCase() : 'OPP' %>
+                </span>
               <% } %>
             </div>
-            <div class="text-3xl sm:text-4xl font-black text-white tracking-tight"><%= nextGame ? nextGame.opponent : 'Opponent' %></div>
-            <div class="text-xs text-gray-400 uppercase tracking-wide font-semibold mt-1">Rival</div>
+            <h2 class="text-xl sm:text-3xl font-black text-white tracking-tight mt-2 sm:mt-3 truncate max-w-[100px] sm:max-w-none">
+              <%= nextGame ? nextGame.opponent : 'Opponent' %>
+            </h2>
+            <span class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-widest font-semibold">Rival</span>
           </div>
+
         </div>
 
-        <!-- Game Details -->
-        <div class="mt-8 pt-6 border-t border-white/10 flex items-center justify-center gap-3 sm:gap-6 flex-wrap text-center">
-          <div class="flex items-center gap-2 text-gray-300">
-            <i class="fas fa-calendar-day text-byuRoyal"></i>
-            <span class="text-sm font-semibold">
-              <% if (nextGame && nextGame.startDate) { %>
-                <%= new Date(nextGame.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %>
-              <% } else { %>
-                Date TBD
-              <% } %>
-            </span>
-          </div>
-          <span class="text-gray-600 hidden sm:inline">•</span>
-          <div class="flex items-center gap-2 text-gray-300">
-            <i class="fas fa-location-dot text-byuRoyal"></i>
-            <span class="text-sm font-semibold"><%= nextGame ? nextGame.venue : 'TBD Venue' %></span>
+        <!-- Kickoff Countdown Timer Bar -->
+        <div class="mt-6 pt-4 border-t border-white/10">
+          <p class="text-[10px] text-gray-400 uppercase tracking-widest text-center font-bold mb-2">Countdown To Kickoff</p>
+          <div id="gameCountdown" class="flex justify-center gap-2 sm:gap-4">
+            <div class="bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-center min-w-[55px]">
+              <span id="cd-days" class="block text-base sm:text-xl font-black text-amber-400">04</span>
+              <span class="text-[9px] text-gray-400 uppercase font-bold">Days</span>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-center min-w-[55px]">
+              <span id="cd-hours" class="block text-base sm:text-xl font-black text-white">12</span>
+              <span class="text-[9px] text-gray-400 uppercase font-bold">Hrs</span>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-center min-w-[55px]">
+              <span id="cd-mins" class="block text-base sm:text-xl font-black text-white">45</span>
+              <span class="text-[9px] text-gray-400 uppercase font-bold">Min</span>
+            </div>
           </div>
         </div>
 
         <!-- Action Buttons -->
-        <div class="mt-8 flex items-center justify-center gap-4 flex-wrap">
-          <a href="#postCreator" class="flex items-center gap-2 bg-byuRoyal hover:bg-byuRoyal/80 text-white font-bold text-sm px-6 py-3 rounded-xl transition shadow-lg">
-            <i class="fas fa-bullseye"></i> Log Prediction
+        <div class="mt-6 flex items-center justify-center gap-3">
+          <a href="#postCreator" class="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-byuRoyal hover:bg-byuRoyal/80 text-white font-bold text-xs sm:text-sm px-5 py-2.5 sm:py-3 rounded-xl transition shadow-lg text-center">
+            <i class="fas fa-bullseye text-xs"></i>
+            <span>Prediction</span>
           </a>
 
-          <!-- Dynamic Rivalry Link -->
           <% if (nextGame && nextGame.opponent) { %>
-            <a href="/rivalry/<%= nextGame.opponent.toLowerCase().replace(/\s+/g, '-') %>" class="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-sm px-6 py-3 rounded-xl transition">
-              <i class="fas fa-chart-bar"></i> View Rivalry
+            <a href="/rivalry/<%= nextGame.opponent.toLowerCase().replace(/\s+/g, '-') %>" class="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-xs sm:text-sm px-5 py-2.5 sm:py-3 rounded-xl transition text-center">
+              <i class="fas fa-chart-bar text-xs"></i>
+              <span>Rivalry Stats</span>
             </a>
           <% } else { %>
-            <a href="#rivalry" class="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-sm px-6 py-3 rounded-xl transition">
-              <i class="fas fa-chart-bar"></i> View Rivalry
+            <a href="#rivalry" class="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-xs sm:text-sm px-5 py-2.5 sm:py-3 rounded-xl transition text-center">
+              <i class="fas fa-chart-bar text-xs"></i>
+              <span>Rivalry Stats</span>
             </a>
           <% } %>
         </div>
+
       </div>
     </div>
   </section>
@@ -94,16 +130,16 @@
   <!-- ====== QUICK STATS BAR ====== -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 relative z-10">
     <div class="grid grid-cols-3 gap-3 sm:gap-6">
-      <div class="bg-gradient-to-br from-byuNavy/60 to-[#00375E]/40 border border-white/10 rounded-2xl p-4 text-center">
-        <div class="text-2xl sm:text-3xl font-black text-white" id="totalPosts">3</div>
+      <div class="stat-card bg-gradient-to-br from-byuNavy/60 to-[#00375E]/40 border border-white/10 rounded-2xl p-4 text-center">
+        <div class="text-2xl sm:text-3xl font-black text-white" id="totalPosts" data-target="3">3</div>
         <div class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wide font-semibold mt-1">Hype Posts</div>
       </div>
-      <div class="bg-gradient-to-br from-byuNavy/60 to-[#00375E]/40 border border-white/10 rounded-2xl p-4 text-center">
-        <div class="text-2xl sm:text-3xl font-black text-white">1,247</div>
+      <div class="stat-card bg-gradient-to-br from-byuNavy/60 to-[#00375E]/40 border border-white/10 rounded-2xl p-4 text-center">
+        <div class="text-2xl sm:text-3xl font-black text-white" data-target="1247">1,247</div>
         <div class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wide font-semibold mt-1">Active Fans</div>
       </div>
-      <div class="bg-gradient-to-br from-byuNavy/60 to-[#00375E]/40 border border-white/10 rounded-2xl p-4 text-center">
-        <div class="text-2xl sm:text-3xl font-black text-white" id="totalPredictions">3</div>
+      <div class="stat-card bg-gradient-to-br from-byuNavy/60 to-[#00375E]/40 border border-white/10 rounded-2xl p-4 text-center">
+        <div class="text-2xl sm:text-3xl font-black text-white" id="totalPredictions" data-target="3">3</div>
         <div class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wide font-semibold mt-1">Predictions</div>
       </div>
     </div>
@@ -121,26 +157,25 @@
 
         <!-- LEFT COLUMN: Upcoming Battles (Next 4 Games) -->
         <div class="bg-gradient-to-br from-[#00375E]/70 to-byuNavy/40 border border-white/10 rounded-2xl p-6">
-          <div class="flex items-center justify-between mb-5">
+          <div class="flex items-center justify-between mb-5 group">
             <h3 class="text-lg font-black text-white flex items-center gap-2">
-              <i class="fas fa-swords text-amber-400"></i> Upcoming Battles
+              <i class="fas fa-swords text-amber-400 transition-transform duration-200"></i> Upcoming Battles
             </h3>
             <span class="text-xs text-byuRoyal font-bold uppercase tracking-wider">Next 4 Games</span>
           </div>
 
           <% 
-            // Filter out completed games to get the next 4 upcoming matchups
             const upcomingGames = schedule ? schedule.filter(g => !g.completed).slice(0, 4) : []; 
           %>
 
           <div class="space-y-3">
             <% if (upcomingGames.length > 0) { %>
               <% upcomingGames.forEach(game => { %>
-                <a href="/rivalry/<%= game.opponent.toLowerCase().replace(/\s+/g, '-') %>" class="flex items-center justify-between bg-white/5 border border-white/10 hover:border-byuRoyal/50 hover:bg-white/10 transition rounded-xl p-3.5 group">
+                <a href="/rivalry/<%= game.opponent.toLowerCase().replace(/\s+/g, '-') %>" class="battle-card flex items-center justify-between bg-white/5 border border-white/10 rounded-xl p-3.5 group">
                   
                   <!-- Game Info & Logos -->
                   <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-byuNavy flex items-center justify-center border border-white/10 p-1.5 shrink-0 shadow-md">
+                    <div class="w-10 h-10 rounded-full bg-byuNavy flex items-center justify-center border border-white/10 p-1.5 shrink-0 shadow-md group-hover:rotate-6 transition-transform">
                       <img src="<%= game.opponentLogo %>" alt="<%= game.opponent %>" class="w-full h-full object-contain">
                     </div>
                     
@@ -160,7 +195,7 @@
                   <!-- CTA Arrow -->
                   <div class="flex items-center gap-2 text-xs text-gray-400 group-hover:text-byuRoyal font-bold transition shrink-0">
                     <span class="hidden sm:inline">Rivalry Stats</span>
-                    <i class="fas fa-chevron-right text-xs group-hover:translate-x-1 transition"></i>
+                    <i class="fas fa-chevron-right text-xs group-hover:translate-x-1.5 transition-transform"></i>
                   </div>
                 </a>
               <% }) %>
@@ -184,15 +219,20 @@
           <div id="conquestGrid" class="grid grid-cols-3 sm:grid-cols-4 gap-3">
             <% if (typeof schedule !== 'undefined' && schedule.length > 0) { %>
               <% schedule.forEach(game => { %>
-                <a href="/rivalry/<%= game.opponent.toLowerCase().replace(/\s+/g, '-') %>" class="relative bg-white/5 border border-white/10 hover:border-byuRoyal/50 hover:bg-white/10 transition rounded-xl p-3 flex flex-col items-center gap-2 group">
-                  <div class="w-10 h-10 rounded-full flex items-center justify-center font-black text-white text-[10px] shadow-lg border border-white/10 bg-byuNavy">
+                <a href="/rivalry/<%= game.opponent.toLowerCase().replace(/\s+/g, '-') %>" class="grid-card relative bg-white/5 border border-white/10 rounded-xl p-3 flex flex-col items-center gap-2 group">
+                  <div class="w-10 h-10 rounded-full flex items-center justify-center font-black text-white text-[10px] shadow-lg border border-white/10 bg-byuNavy group-hover:scale-110 transition-transform">
                     <img src="<%= game.opponentLogo %>" class="w-6 h-6 object-contain" alt="<%= game.opponent %>">
                   </div>
-                  <span class="text-[10px] text-gray-400 group-hover:text-white font-medium text-center leading-tight truncate w-full"><%= game.opponent %></span>
+                  <span class="text-[10px] text-gray-400 group-hover:text-white font-medium text-center leading-tight truncate w-full transition-colors"><%= game.opponent %></span>
+                  
                   <% if (game.completed) { %>
-                    <div class="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center border-2 border-[#001528]"><i class="fas fa-check text-white text-[8px]"></i></div>
+                    <div class="status-badge absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center border-2 border-[#001528]">
+                      <i class="fas fa-check text-white text-[8px]"></i>
+                    </div>
                   <% } else { %>
-                    <div class="absolute -top-1 -right-1 w-5 h-5 bg-gray-700 rounded-full flex items-center justify-center border-2 border-[#001528]"><i class="fas fa-clock text-gray-400 text-[8px]"></i></div>
+                    <div class="absolute -top-1 -right-1 w-5 h-5 bg-gray-700 rounded-full flex items-center justify-center border-2 border-[#001528]">
+                      <i class="fas fa-clock text-gray-400 text-[8px]"></i>
+                    </div>
                   <% } %>
                 </a>
               <% }) %>
@@ -205,39 +245,41 @@
   </section>
 
   <!-- ====== COMMUNITY HYPE FEED ====== -->
-  <section id="hype-feed" class="py-12 sm:py-16">
+  <section id="hype-feed" class="py-8 sm:py-16 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="mb-8">
-        <h2 class="text-2xl sm:text-3xl font-black text-white mb-1 flex items-center gap-3 flex-wrap">
-          Community Hype Feed
-          <span class="inline-flex items-center gap-1.5 text-xs bg-red-500/10 border border-red-500/20 text-red-400 px-2.5 py-1 rounded-full font-bold">
+      
+      <div class="mb-6 sm:mb-8">
+        <h2 class="text-xl sm:text-3xl font-black text-white mb-1 flex items-center gap-2.5 flex-wrap">
+          <span>Community Hype Feed</span>
+          <span class="inline-flex items-center gap-1.5 text-[10px] sm:text-xs bg-red-500/10 border border-red-500/20 text-red-400 px-2.5 py-0.5 sm:py-1 rounded-full font-bold">
             <span class="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse"></span> LIVE
           </span>
         </h2>
-        <p class="text-gray-400 text-sm">Share your hot takes and game predictions.</p>
+        <p class="text-gray-400 text-xs sm:text-sm">Share your hot takes and game predictions.</p>
       </div>
 
       <div class="grid lg:grid-cols-3 gap-6">
+        
         <!-- Post Creator -->
-        <div class="lg:col-span-1 lg:sticky lg:top-24 lg:self-start">
-          <div id="postCreator" class="bg-gradient-to-br from-[#00375E]/70 to-byuNavy/40 border border-white/10 rounded-2xl p-5">
-            <h3 class="text-sm font-bold text-white mb-4 flex items-center gap-2">
+        <div class="lg:col-span-1 lg:sticky lg:top-24 lg:self-start min-w-0">
+          <div id="postCreator" class="bg-gradient-to-br from-[#00375E]/70 to-byuNavy/40 border border-white/10 rounded-2xl p-4 sm:p-5 shadow-lg">
+            <h3 class="text-sm font-bold text-white mb-3 sm:mb-4 flex items-center gap-2">
               <i class="fas fa-pen-to-square text-byuRoyal"></i> Create Hype Post
             </h3>
 
-            <div class="flex gap-3 mb-4">
-              <div class="shrink-0 w-11 h-11 rounded-full bg-gradient-to-br from-amber-400 to-byuRoyal flex items-center justify-center font-bold text-sm text-white border-2 border-white/10">C</div>
-              <div class="flex-1">
-                <textarea id="postContent" rows="4" placeholder="What's your hot take on the upcoming game?" class="w-full bg-[#001528] border border-white/10 rounded-xl p-3 text-sm text-gray-200 placeholder-gray-500 resize-none focus:outline-none focus:border-byuRoyal focus:ring-1 focus:ring-byuRoyal transition"></textarea>
-                <p class="text-xs text-gray-500 mt-1">@CougarFan99</p>
+            <div class="flex gap-2.5 sm:gap-3 mb-3 sm:mb-4">
+              <div class="shrink-0 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-amber-400 to-byuRoyal flex items-center justify-center font-bold text-xs sm:text-sm text-white border-2 border-white/10">C</div>
+              <div class="flex-1 min-w-0">
+                <textarea id="postContent" rows="3" placeholder="What's your hot take on the upcoming game?" class="w-full bg-[#001528] border border-white/10 rounded-xl p-2.5 sm:p-3 text-xs sm:text-sm text-gray-200 placeholder-gray-500 resize-none focus:outline-none focus:border-byuRoyal focus:ring-1 focus:ring-byuRoyal transition"></textarea>
+                <p class="text-[10px] sm:text-xs text-gray-500 mt-1">@CougarFan99</p>
               </div>
             </div>
 
             <div class="space-y-3">
               <div>
-                <label class="text-[10px] text-gray-400 uppercase tracking-wide font-semibold mb-1.5 block">Select Opponent</label>
+                <label class="text-[10px] text-gray-400 uppercase tracking-wide font-semibold mb-1 block">Select Opponent</label>
                 <div class="relative">
-                  <select id="postOpponent" class="w-full bg-[#001528] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-byuRoyal transition cursor-pointer appearance-none pr-9">
+                  <select id="postOpponent" class="w-full bg-[#001528] border border-white/10 rounded-xl px-3 py-2 sm:py-2.5 text-xs sm:text-sm text-gray-200 focus:outline-none focus:border-byuRoyal transition cursor-pointer appearance-none pr-8">
                     <option value="">Select Opponent</option>
                   </select>
                   <i class="fas fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs pointer-events-none"></i>
@@ -245,25 +287,20 @@
               </div>
 
               <div>
-                <label class="text-[10px] text-gray-400 uppercase tracking-wide font-semibold mb-1.5 block">Score Prediction <span class="text-gray-600 normal-case">(optional)</span></label>
-                <div class="flex items-center gap-2">
-                  <div class="flex-1">
-                    <div class="flex items-center gap-1.5 bg-[#001528] border border-white/10 rounded-xl px-3 py-2 focus-within:border-byuRoyal transition">
-                      <span class="text-[10px] font-black text-byuRoyal">BYU</span>
-                      <input type="number" id="byuScore" min="0" max="99" placeholder="31" class="w-full bg-transparent text-center text-sm text-white font-bold focus:outline-none placeholder-gray-600">
-                    </div>
+                <label class="text-[10px] text-gray-400 uppercase tracking-wide font-semibold mb-1 block">Score Prediction <span class="text-gray-500 font-normal">(optional)</span></label>
+                <div class="grid grid-cols-2 gap-2 items-center">
+                  <div class="flex items-center gap-1 bg-[#001528] border border-white/10 rounded-xl px-2.5 py-1.5 sm:py-2 focus-within:border-byuRoyal transition min-w-0">
+                    <span class="text-[10px] font-black text-byuRoyal shrink-0">BYU</span>
+                    <input type="number" id="byuScore" min="0" max="99" placeholder="31" class="w-full min-w-0 bg-transparent text-center text-xs sm:text-sm text-white font-bold focus:outline-none placeholder-gray-600">
                   </div>
-                  <span class="text-gray-500 font-bold text-sm">—</span>
-                  <div class="flex-1">
-                    <div class="flex items-center gap-1.5 bg-[#001528] border border-white/10 rounded-xl px-3 py-2 focus-within:border-byuRoyal transition">
-                      <span class="text-[10px] font-black text-gray-500">OPP</span>
-                      <input type="number" id="oppScore" min="0" max="99" placeholder="24" class="w-full bg-transparent text-center text-sm text-white font-bold focus:outline-none placeholder-gray-600">
-                    </div>
+                  <div class="flex items-center gap-1 bg-[#001528] border border-white/10 rounded-xl px-2.5 py-1.5 sm:py-2 focus-within:border-byuRoyal transition min-w-0">
+                    <span class="text-[10px] font-black text-gray-500 shrink-0">OPP</span>
+                    <input type="number" id="oppScore" min="0" max="99" placeholder="24" class="w-full min-w-0 bg-transparent text-center text-xs sm:text-sm text-white font-bold focus:outline-none placeholder-gray-600">
                   </div>
                 </div>
               </div>
 
-              <button onclick="submitPost()" class="w-full flex items-center justify-center gap-2 bg-byuRoyal hover:bg-byuRoyal/80 text-white font-bold text-sm px-4 py-3 rounded-xl transition shadow-lg">
+              <button onclick="submitPost()" class="w-full flex items-center justify-center gap-2 bg-byuRoyal hover:bg-byuRoyal/80 text-white font-bold text-xs sm:text-sm px-4 py-2.5 sm:py-3 rounded-xl transition shadow-lg">
                 <i class="fas fa-fire text-amber-300"></i> Post Hype
               </button>
             </div>
@@ -271,18 +308,17 @@
         </div>
 
         <!-- Feed Column -->
-        <div class="lg:col-span-2">
-          <!-- Filter Tabs -->
-          <div class="flex items-center gap-2 mb-4 overflow-x-auto hide-scrollbar pb-1">
-            <button onclick="setFilter('all')" data-filter="all" class="filter-tab active px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition">All Posts</button>
-            <button onclick="setFilter('holy-war')" data-filter="holy-war" class="filter-tab px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition">Holy War</button>
-            <button onclick="setFilter('big-12')" data-filter="big-12" class="filter-tab px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition">Big 12</button>
-            <button onclick="setFilter('predictions')" data-filter="predictions" class="filter-tab px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition">Predictions</button>
+        <div class="lg:col-span-2 min-w-0">
+          <div class="flex items-center gap-1.5 sm:gap-2 mb-4 overflow-x-auto hide-scrollbar pb-1 -mx-4 px-4 sm:mx-0 sm:px-0">
+            <button onclick="setFilter('all')" data-filter="all" class="filter-tab active px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition">All Posts</button>
+            <button onclick="setFilter('holy-war')" data-filter="holy-war" class="filter-tab px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition">Holy War</button>
+            <button onclick="setFilter('big-12')" data-filter="big-12" class="filter-tab px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition">Big 12</button>
+            <button onclick="setFilter('predictions')" data-filter="predictions" class="filter-tab px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition">Predictions</button>
           </div>
 
-          <!-- Timeline -->
-          <div id="feedTimeline"></div>
+          <div id="feedTimeline" class="w-full min-w-0"></div>
         </div>
+
       </div>
     </div>
   </section>
